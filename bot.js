@@ -18,7 +18,7 @@ client.once('ready', () => {
 	console.log('Bot iniciado!');
 });
 
-// Fica ativo, à cada mensagem ele roda isso
+// Fica ativo e à cada mensagem ele é executado
 client.on('message', msg => {
 
 	// Toda informação, vem no 'message' = msg
