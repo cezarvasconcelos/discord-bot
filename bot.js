@@ -17,7 +17,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log('Bot iniciado!');
 });
-
+// Teste commit para o github
 // Fica ativo e à cada mensagem ele é executado
 client.on('message', msg => {
 
