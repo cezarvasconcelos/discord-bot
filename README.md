@@ -4,6 +4,6 @@
 
 #### Deve ter
 
--[x] teste
--[ ] teste2
--[ ] teste3
+- [x] teste
+- [ ] teste2
+- [ ] teste3
