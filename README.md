@@ -1,2 +1,9 @@
 # discord-bot
-Projeto simples de um bot para Discord, utilizando a biblioteca discord.js
+
+## Um bot para a plataforma Discord utilizando como base a biblioteca [discord.js](https://discord.js.org), para aprender e praticar o uso de [Node.js](https://nodejs.org) e [MongoDB](https://www.mongodb.com)
+
+#### Deve ter
+
+-[x] teste
+-[ ] teste2
+-[ ] teste3
