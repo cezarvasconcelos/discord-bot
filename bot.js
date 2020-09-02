@@ -1,7 +1,8 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
-
+const fetch = require('node-fetch');
+const querystring = require('querystring');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -19,20 +20,57 @@ client.once('ready', () => {
 });
 // Outro teste de commit, agora sem ser por linha de comando
 // Fica ativo e à cada mensagem ele é executado
-client.on('message', msg => {
+client.on('message', async msg => {
 
 	// Toda informação, vem no 'message' = msg
 	console.log(msg.content);
-	// Se a mensagem não começar com o prefixo definido cai fora.
+	// Se a mensagem não começar com o prefixo definido ou originar de um outro bot, cai fora.
 	if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
 	// Usa regEx para ignorar espaços extras informados
 	const args = msg.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
+
 	// Confere se existe o comando ou aliases que o usuario enviou.
 	const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+	console.log("Conteúdo do args: ", args);
+	console.log("qq tem dentro do commandName: ", commandName);
+	console.log("qq tem dentro do command: ", command);
+
+	if (commandName == `gatenho`) {
+		try {
+			const { file } = await fetch("http://aws.random.cat/meow").then(response => (response.json()));
+
+			msg.channel.send(file);
+		}
+		catch (error) {
+			console.log(error);
+			msg.reply('Não funfou.');
+		}
+	}
+
+	if (commandName == `urban`) {
+		if (!args.length) {
+			msg.reply('Você precisa colocar junto o que quer pesquisar.');
+		}
+	}
+	else {
+		try {
+			const query = querystring.stringify({ term: args.join(' ') });
+			const { list } = await fetch(`https://api.urbandictionary.com/v0/define?${query}`).then(response => response.json());
+
+			msg.channel.send(list);
+		}
+		catch (error) {
+			console.log(error);
+			msg.send.reply('Não funfou.');
+		}
+	}
+
+
 	if (!command) return;
 
 	let msgRetorno = `Você não usou o comando de forma correta. ${msg.author}`;
@@ -50,7 +88,7 @@ client.on('message', msg => {
 		return msg.channel.send(msgRetorno);
 	}
 
-	// Ativa um cooldown para não houver spam de comandos
+	// Ativa um cooldown para não ter spam de comandos
 	if (!cooldowns.has(command.name)) {
 		cooldowns.set(command.name, new Discord.Collection());
 	}
