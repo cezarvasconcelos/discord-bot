@@ -1,14 +1,13 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
-const fetch = require('node-fetch');
-const querystring = require('querystring');
+
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cooldowns = new Discord.Collection();
-
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -40,37 +39,6 @@ client.on('message', async msg => {
 	console.log("qq tem dentro do commandName: ", commandName);
 	console.log("qq tem dentro do command: ", command);
 
-	if (commandName == `gatenho`) {
-		try {
-			const { file } = await fetch("http://aws.random.cat/meow").then(response => (response.json()));
-
-			msg.channel.send(file);
-		}
-		catch (error) {
-			console.log(error);
-			msg.reply('Não funfou.');
-		}
-	}
-
-	if (commandName == `urban`) {
-		if (!args.length) {
-			msg.reply('Você precisa colocar junto o que quer pesquisar.');
-		}
-	}
-	else {
-		try {
-			const query = querystring.stringify({ term: args.join(' ') });
-			const { list } = await fetch(`https://api.urbandictionary.com/v0/define?${query}`).then(response => response.json());
-
-			msg.channel.send(list);
-		}
-		catch (error) {
-			console.log(error);
-			msg.send.reply('Não funfou.');
-		}
-	}
-
-
 	if (!command) return;
 
 	let msgRetorno = `Você não usou o comando de forma correta. ${msg.author}`;
@@ -81,7 +49,7 @@ client.on('message', async msg => {
 	}
 
 	// Mostra o uso correto do comando, quando necessário.
-	if (command.args && !args.length) {
+	if (command.args == true && !args.length) {
 		if (command.usage) {
 			msgRetorno += `, o uso correto é: ${prefix}${commandName} ${command.usage}`;
 		}

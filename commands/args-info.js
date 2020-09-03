@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'args-info',
 	description: 'Informações Argumentos de comandos!',
-	args: 'true',
+	args: true,
 	usage: '<palavra foo>',
 	execute(msg, args) {
 		if (args[0] === 'foo') {

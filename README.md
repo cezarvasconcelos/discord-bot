@@ -4,6 +4,6 @@
 
 #### Deve ter
 
-- [x] teste
-- [ ] teste2
-- [ ] teste3
+- [x] Criar um Command Handler básico
+- [ ] REST API 
+- [ ] 
